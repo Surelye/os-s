@@ -77,6 +77,8 @@ int main(int argc, char * argv[])
   finish = clock();
 
   printf("Elapsed: %f seconds\n", (double)(finish - start) / (CLOCKS_PER_SEC));  
+
+  printf("THIS LINE WAS COMMITTED TO GITHUB\n");
   
   return 0;
 }
