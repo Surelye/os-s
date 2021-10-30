@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <time.h>
+#include <string.h>
 
 void iter_sequence(char * alph, int length)
 {
@@ -7,20 +8,11 @@ void iter_sequence(char * alph, int length)
   int current_symbol[length];
   int current_position = length - 1; // the index of symbol we currently modify
   int i;
-  int alphabet_length = 0;
-
-  for (i = 0; alph[i]; i++)
-    {
-      alphabet_length++; 
-    }  
+  int alphabet_length = strlen(alph);
 
   for (i = 0; i < length; i++)
     {
       current_password[i] = alph[0];
-    }
-
-  for (i = 0; i < length; i++)
-    {
       current_symbol[i] = 0;
     }
 
@@ -44,11 +36,9 @@ void iter_sequence(char * alph, int length)
 	    {
 	      break;
 	    }
-	  else
-	    {
-	      current_password[current_position] = alph[++current_symbol[current_position]];
-	      current_position = length - 1;
-	    }
+	  
+	  current_password[current_position] = alph[++current_symbol[current_position]];
+	  current_position = length - 1;
 	}
     }
   
