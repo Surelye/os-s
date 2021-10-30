@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <time.h>
 
 void iter_sequence(char * alph, int length)
 {
@@ -25,7 +26,7 @@ void iter_sequence(char * alph, int length)
 
   while (1)
     {
-      printf("%s\n", current_password);
+      //      printf("%s\n", current_password);
 
       if (current_symbol[current_position] < alphabet_length - 1)
 	{
@@ -55,7 +56,29 @@ void iter_sequence(char * alph, int length)
 
 int main(int argc, char * argv[])
 {
-  iter_sequence("alpbt", 3);
+  char * alphabet_first = "ab";
+  int length_first = 30;
+
+  clock_t start = clock();
+
+  iter_sequence(alphabet_first, length_first);
+
+  clock_t finish = clock();
+
+  printf("Elapsed: %f seconds\n", (double)(finish - start) / (CLOCKS_PER_SEC));
+
+  char * alphabet_second = "abcdefghijklmnopqrstuvwxyz[],.+-";
+  int length_second = 6;
+
+  start = clock();
+
+  iter_sequence(alphabet_second, length_second);
+
+  finish = clock();
+
+  printf("Elapsed: %f seconds\n", (double)(finish - start) / (CLOCKS_PER_SEC));  
+
+  // the line from here was removed 
   
   return 0;
 }
