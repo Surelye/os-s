@@ -1,0 +1,3 @@
+all: brute
+
+CFLAGS += -02 -Wall
