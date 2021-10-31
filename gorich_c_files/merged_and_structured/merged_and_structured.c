@@ -85,6 +85,8 @@ void parse_params(config_t * config, char * argv[])
     }
 }
 
+
+
 int main(int argc, char * argv[])
 {
   config_t config = {"0", 3, MR_RECU};
