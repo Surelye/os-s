@@ -45,6 +45,7 @@ void iter_sequence(char * alph, int length)
 }
 
 int main(int argc, char * argv[])
+
 {
   char * alphabet_first = "ab";
   int length_first = 30;

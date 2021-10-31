@@ -7,7 +7,7 @@ void recu_sequence(char * alph, char * password, int pos)
 
   if (pos < 0)
     {
-      //      printf("%s\n", password);
+      printf("%s\n", password);
     }
   else for (i = 0; alph[i]; i++)
     {
