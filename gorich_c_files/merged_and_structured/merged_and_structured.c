@@ -3,8 +3,8 @@
 #include <stdlib.h>
 
 typedef enum {
-    BM_ITER,
-    MR_RECU
+  BM_ITER = 1,
+  MR_RECU = 2
   } launch_mode_t;
 
 typedef struct {
@@ -75,11 +75,11 @@ void parse_params(config_t * config, char * argv[])
   config->alph = argv[1];
   config->length = atoi(argv[2]);
 
-  if (strcmp("BM_ITER", argv[3]) == 0 || atoi(argv[3]) == 0)
+  if (strcmp("BM_ITER", argv[3]) == 0 || atoi(argv[3]) == 1)
     {
       config->launch_mode = BM_ITER;
     }
-  else if (strcmp("MR_RECU", argv[3]) == 0 || atoi(argv[3]) == 1)
+  else if (strcmp("MR_RECU", argv[3]) == 0 || atoi(argv[3]) == 2)
     {
       config->launch_mode = MR_RECU;
     }
@@ -107,18 +107,18 @@ int main(int argc, char * argv[])
     {
       switch(config.launch_mode)
 	{
-	case 0:
+	case 1:
 	  iter_sequence(config.alph, config.length);
 	  printf("Finished with iterative algorithm.\n");
 	  break;
 
-	case 1:
+	case 2:
 	  recu_sequence(config.alph, password, config.length - 1);
   	  printf("Finished with recursive algorithm.\n");
 	  break;
 
 	default:
-	  printf("Oops ! Something went wrong.\n");
+	  printf("Oops ! Something went wrong.\n"); // this line never gets printed
 	}
     }
   
