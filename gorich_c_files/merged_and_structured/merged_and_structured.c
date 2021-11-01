@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 typedef enum {
-  BM_ITER = 1,
-  MR_RECU = 2
+  ITER,
+  RECU
   } launch_mode_t;
 
 typedef struct {
@@ -70,29 +71,43 @@ void iter_sequence(char * alph, int length)
   
 }
 
-void parse_params(config_t * config, char * argv[])
+void parse_params(config_t * config, int argc, char * argv[])
 {
-  config->alph = argv[1];
-  config->length = atoi(argv[2]);
+  int placeholder = 0;
 
-  if (strcmp("BM_ITER", argv[3]) == 0 || atoi(argv[3]) == 1)
+  while ((placeholder = getopt(argc, argv, "a:l:m:")) != -1)
     {
-      config->launch_mode = BM_ITER;
-    }
-  else if (strcmp("MR_RECU", argv[3]) == 0 || atoi(argv[3]) == 2)
-    {
-      config->launch_mode = MR_RECU;
+      switch (placeholder)
+	{
+	case 'a':
+	  config->alph = optarg;
+	  break;
+
+	case 'l':
+	  config->length = atoi(optarg);
+	  break;
+
+	case 'm':
+	  if (strcmp("ITER", optarg) == 0)
+	    {
+	      config->launch_mode = ITER;
+	    }
+	  else if (strcmp("RECU", optarg) == 0)
+	    {
+	      config->launch_mode = RECU;
+	    }
+	}
     }
 }
 
-
-
 int main(int argc, char * argv[])
 {
-  config_t config = {"0", 3, MR_RECU};
+  config_t config = {"0", 3, RECU};
 
-  parse_params(&config, argv);
+  parse_params(&config, argc, argv);
 
+  printf("ALPHABET IS %s\n", config.alph);
+  
   char password[config.length + 1];
   password[config.length] = 0;
   
@@ -107,12 +122,12 @@ int main(int argc, char * argv[])
     {
       switch(config.launch_mode)
 	{
-	case 1:
+	case ITER:
 	  iter_sequence(config.alph, config.length);
 	  printf("Finished with iterative algorithm.\n");
 	  break;
 
-	case 2:
+	case RECU:
 	  recu_sequence(config.alph, password, config.length - 1);
   	  printf("Finished with recursive algorithm.\n");
 	  break;
