@@ -29,46 +29,47 @@ void recu_sequence(char * alph, char * password, int pos) // to get all sequence
     }
 }
 
-void iter_sequence(char * alph, int length)
+void iter_sequence(char * alphabet, int length)
 {
-  int current_symbol[length];
-  char current_password[length];
+  int password[length];
   int current_position = length - 1; // the index of symbol we currently modify
   int i;
-  int alphabet_length = strlen(alph);
+  int alphabet_length = strlen(alphabet);
 
   for (i = 0; i < length; i++)
     {
-      current_password[i] = alph[0];
-      current_symbol[i] = 0;
+      password[i] = 0;
     }
-
+  
   while (1)
     {
-      printf("%s\n", current_password);
+      for (i = 0; i < length; i++)
+      	{
+	  printf("%c", alphabet[password[i]]);
+	}
+      printf("\n");
 
-      if (current_symbol[current_position] < alphabet_length - 1)
+      if (password[current_position] < alphabet_length - 1)
 	{
-	  current_password[current_position] = alph[++current_symbol[current_position]];
+	  password[current_position]++;
 	}
       else
 	{
-	  while (current_symbol[current_position] == alphabet_length - 1)
+	  while (password[current_position] == alphabet_length - 1)
 	    {
-	      current_symbol[current_position] = 0;
-	      current_password[current_position--] = alph[0];
+	      password[current_position] = 0;
+	      current_position--;
 	    }
 
 	  if (current_position < 0)
 	    {
 	      break;
 	    }
-	  
-	  current_password[current_position] = alph[++current_symbol[current_position]];
+
+	  password[current_position]++;
 	  current_position = length - 1;
-	}
-    }
-  
+	}    
+    }    
 }
 
 void parse_params(config_t * config, int argc, char * argv[])
@@ -106,7 +107,7 @@ int main(int argc, char * argv[])
 
   parse_params(&config, argc, argv);
 
-  printf("ALPHABET IS %s\n", config.alph);
+  // printf("ALPHABET IS %s.\n", config.alph);
   
   char password[config.length + 1];
   password[config.length] = 0;
