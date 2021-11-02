@@ -29,13 +29,55 @@ void recu_sequence(char * alph, char * password, int pos) // to get all sequence
     }
 }
 
+/*
+void iter_sequence(char * alph, int length)
+{
+  char current_password[length];
+  int current_symbol[length];
+  int current_position = length - 1; // the index of symbol we currently modify
+  int i;
+  int alphabet_length = 0;
+
+  for (i = 0; alph[i]; i++)
+    {
+      alphabet_length++; 
+    }  
+
+  for (i = 0; i < length; i++)
+    {
+      current_password[i] = alph[0];
+      current_symbol[i] = 0;
+    }
+
+  while (1)
+    {
+      // printf("%s\n", current_password);
+      
+      while (current_symbol[current_position] == alphabet_length - 1)
+	{
+	  current_symbol[current_position] = 0;
+	  current_password[current_position--] = alph[0];
+	}
+      
+      if (current_position < 0)
+	{
+	  break;
+	}
+      
+      current_password[current_position] = alph[++current_symbol[current_position]];
+      current_position = length - 1;	  
+    }  
+}
+*/
+
 void iter_sequence(char * alphabet, int length)
 {
   int password[length];
   int current_position = length - 1; // the index of symbol we currently modify
   int i;
   int alphabet_length = strlen(alphabet);
-
+  int flag = 0;
+  
   for (i = 0; i < length; i++)
     {
       password[i] = 0;
@@ -43,33 +85,31 @@ void iter_sequence(char * alphabet, int length)
   
   while (1)
     {
-      for (i = 0; i < length; i++)
-      	{
-	  printf("%c", alphabet[password[i]]);
-	}
-      printf("\n");
-
-      if (password[current_position] < alphabet_length - 1)
+      //for (i = 0; i < length; i++)
+      //{
+      //printf("%c", alphabet[password[i]]);
+      //	}
+      //printf("\n");
+      
+      while (current_position >= 0 && password[current_position] == alphabet_length - 1 && ++flag)
 	{
-	  password[current_position]++;
+	  password[current_position] = 0;
+	  current_position--;
 	}
-      else
+      
+      if (current_position < 0)
 	{
-	  while (password[current_position] == alphabet_length - 1)
-	    {
-	      password[current_position] = 0;
-	      current_position--;
-	    }
-
-	  if (current_position < 0)
-	    {
-	      break;
-	    }
-
-	  password[current_position]++;
+	  break;
+	}
+      
+      password[current_position]++;
+      
+      if (flag)
+	{
+	  flag = 0;
 	  current_position = length - 1;
-	}    
-    }    
+	}
+    }
 }
 
 void parse_params(config_t * config, int argc, char * argv[])
@@ -106,8 +146,6 @@ int main(int argc, char * argv[])
   config_t config = {"0", 3, RECU};
 
   parse_params(&config, argc, argv);
-
-  // printf("ALPHABET IS %s.\n", config.alph);
   
   char password[config.length + 1];
   password[config.length] = 0;
@@ -132,9 +170,6 @@ int main(int argc, char * argv[])
 	  recu_sequence(config.alph, password, config.length - 1);
   	  printf("Finished with recursive algorithm.\n");
 	  break;
-
-	default:
-	  printf("Oops ! Something went wrong.\n"); // this line never gets printed
 	}
     }
   
